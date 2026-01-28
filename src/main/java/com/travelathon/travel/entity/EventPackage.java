@@ -10,12 +10,11 @@ import java.util.UUID;
 public class EventPackage {
 
     @Id
-    @GeneratedValue
-    @Column(columnDefinition = "uuid")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id", nullable = false, unique = true)
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "event_id")
     private Event event;
 
     @Column(name = "flight_price_estimate", precision = 10, scale = 2)
@@ -24,11 +23,13 @@ public class EventPackage {
     @Column(name = "hotel_price_estimate", precision = 10, scale = 2)
     private BigDecimal hotelPriceEstimate;
 
+    @Column(nullable = false)
     private Integer nights = 1;
 
     @Column(name = "total_package_price", precision = 10, scale = 2)
     private BigDecimal totalPackagePrice;
 
+    @Column(nullable = false)
     private String currency = "INR";
 
     @Column(name = "created_at", updatable = false)
@@ -57,6 +58,7 @@ public class EventPackage {
 
     public void setEvent(Event event) {
         this.event = event;
+        this.id = event != null ? event.getId() : null;
     }
 
     public BigDecimal getFlightPriceEstimate() {

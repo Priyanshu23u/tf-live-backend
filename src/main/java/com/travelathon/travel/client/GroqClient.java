@@ -1,6 +1,5 @@
 package com.travelathon.travel.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -13,19 +12,22 @@ import java.util.Map;
 @Component
 public class GroqClient {
 
+    private final RestTemplate restTemplate;
+
     @Value("${groq.api.key}")
     private String apiKey;
 
     @Value("${groq.api.url}")
     private String apiUrl;
 
-    private final RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper mapper = new ObjectMapper();
+    public GroqClient(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public String generateItinerary(String prompt) {
 
         Map<String, Object> body = new HashMap<>();
-        body.put("model","llama-3.1-8b-instant" );
+        body.put("model", "llama-3.1-8b-instant");
 
         body.put("messages", List.of(
                 Map.of("role", "system", "content",

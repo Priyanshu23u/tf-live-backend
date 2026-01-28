@@ -13,13 +13,16 @@ import java.time.LocalDate;
 @Service
 public class CricApiSyncService {
 
+    private final EventPackageService eventPackageService;
+
     private final CricApiClient client;
     private final EventRepository repository;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public CricApiSyncService(CricApiClient client, EventRepository repository) {
+    public CricApiSyncService(CricApiClient client, EventRepository repository, EventPackageService eventPackageService) {
         this.client = client;
         this.repository = repository;
+        this.eventPackageService = eventPackageService;
     }
 
     public int syncCricketMatches() throws Exception {

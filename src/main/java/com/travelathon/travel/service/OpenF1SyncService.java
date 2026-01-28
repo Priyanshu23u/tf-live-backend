@@ -16,13 +16,16 @@ import java.util.Iterator;
 @Service
 public class OpenF1SyncService {
 
+    private final EventPackageService eventPackageService;
+
     private final OpenF1Client client;
     private final EventRepository repository;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public OpenF1SyncService(OpenF1Client client, EventRepository repository) {
+    public OpenF1SyncService(OpenF1Client client, EventRepository repository, EventPackageService eventPackageService) {
         this.client = client;
         this.repository = repository;
+        this.eventPackageService = eventPackageService;
     }
 
     public int syncRacingEvents() throws Exception {

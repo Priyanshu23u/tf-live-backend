@@ -13,14 +13,17 @@ import java.time.LocalDate;
 @Service
 public class SportMonksFootballSyncService {
 
+    private final EventPackageService eventPackageService;
+
     private final SportMonksClient client;
     private final EventRepository repository;
     private final ObjectMapper mapper = new ObjectMapper();
 
     public SportMonksFootballSyncService(SportMonksClient client,
-                                        EventRepository repository) {
+                                        EventRepository repository, EventPackageService eventPackageService) {
         this.client = client;
         this.repository = repository;
+        this.eventPackageService = eventPackageService;
     }
 
     public int syncFutureFootballMatches() throws Exception {

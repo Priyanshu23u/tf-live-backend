@@ -18,18 +18,19 @@ public class ItineraryService {
 
     public JsonNode generateFromPrompt(PromptRequest request) throws Exception {
 
-        String raw = groqClient.generateItinerary(request.getPrompt());
+    String raw = groqClient.generateItinerary(request.getPrompt());
 
-        JsonNode root = mapper.readTree(raw);
+    JsonNode root = mapper.readTree(raw);
 
-        // Extract Groq response text
-        String content = root.path("choices")
-                             .get(0)
-                             .path("message")
-                             .path("content")
-                             .asText();
+    // Extract Groq message content
+    String content = root.path("choices")
+                         .get(0)
+                         .path("message")
+                         .path("content")
+                         .asText();
 
-        return mapper.createObjectNode()
-                     .put("response", content);
-    }
+    // 🔥 IMPORTANT: parse content as JSON, not string
+    return mapper.readTree(content);
+}
+
 }

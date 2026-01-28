@@ -7,13 +7,17 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class CricApiClient {
 
+    private final RestTemplate restTemplate;
+
     @Value("${cricapi.api.key}")
     private String apiKey;
 
     @Value("${cricapi.api.url}")
     private String apiUrl;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    public CricApiClient(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public String fetchMatches() {
         String url = apiUrl + "?apikey=" + apiKey + "&offset=0";

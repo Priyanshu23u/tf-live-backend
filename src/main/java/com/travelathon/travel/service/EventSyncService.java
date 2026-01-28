@@ -15,13 +15,16 @@ import java.util.List;
 @Service
 public class EventSyncService {
 
+    private final EventPackageService eventPackageService;
+
     private final TicketmasterClient client;
     private final EventRepository repository;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public EventSyncService(TicketmasterClient client, EventRepository repository) {
+    public EventSyncService(TicketmasterClient client, EventRepository repository, EventPackageService eventPackageService) {
         this.client = client;
         this.repository = repository;
+        this.eventPackageService = eventPackageService;
     }
 
     public int syncTicketmasterEvents() throws Exception {

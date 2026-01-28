@@ -16,13 +16,16 @@ import java.util.Iterator;
 @Service
 public class OpenF1SyncService {
 
+    private final EventPackageService eventPackageService;
+
     private final OpenF1Client client;
     private final EventRepository repository;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public OpenF1SyncService(OpenF1Client client, EventRepository repository) {
+    public OpenF1SyncService(OpenF1Client client, EventRepository repository, EventPackageService eventPackageService) {
         this.client = client;
         this.repository = repository;
+        this.eventPackageService = eventPackageService;
     }
 
     public int syncRacingEvents() throws Exception {
@@ -42,7 +45,8 @@ public class OpenF1SyncService {
             JsonNode node = iterator.next();
 
             String externalId = node.path("meeting_key").asText(null);
-            if (externalId == null) continue;
+            if (externalId == null)
+                continue;
 
             // avoid duplicates
             if (repository.findByExternalIdAndSource(
@@ -56,16 +60,13 @@ public class OpenF1SyncService {
             event.setCategory(EventCategory.RACING);
 
             event.setTitle(
-                node.path("meeting_name").asText("F1 Race")
-            );
+                    node.path("meeting_name").asText("F1 Race"));
 
             event.setCity(
-                node.path("location").asText("Unknown")
-            );
+                    node.path("location").asText("Unknown"));
 
             event.setCountry(
-                node.path("country_name").asText("Unknown")
-            );
+                    node.path("country_name").asText("Unknown"));
 
             String startDate = node.path("date_start").asText(null);
             String endDate = node.path("date_end").asText(null);
@@ -81,7 +82,7 @@ public class OpenF1SyncService {
             }
 
             event.setCurrentPrice(BigDecimal.ZERO);
- // racing tickets vary
+            // racing tickets vary
             repository.save(event);
             count++;
         }

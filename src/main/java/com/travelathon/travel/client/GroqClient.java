@@ -1,6 +1,5 @@
 package com.travelathon.travel.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -13,42 +12,42 @@ import java.util.Map;
 @Component
 public class GroqClient {
 
-    @Value("${groq.api.key}")
-    private String apiKey;
+        private final RestTemplate restTemplate;
 
-    @Value("${groq.api.url}")
-    private String apiUrl;
+        @Value("${groq.api.key}")
+        private String apiKey;
 
-    private final RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper mapper = new ObjectMapper();
+        @Value("${groq.api.url}")
+        private String apiUrl;
 
-    public String generateItinerary(String prompt) {
+        public GroqClient(RestTemplate restTemplate) {
+                this.restTemplate = restTemplate;
+        }
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("model","llama-3.1-8b-instant" );
+        public String generateItinerary(String prompt) {
 
-        body.put("messages", List.of(
-                Map.of("role", "system", "content",
-                        "You are a professional travel planner. Respond clearly and helpfully."),
-                Map.of("role", "user", "content", prompt)
-        ));
+                Map<String, Object> body = new HashMap<>();
+                body.put("model", "llama-3.1-8b-instant");
 
-        body.put("temperature", 0.4);
+                body.put("messages", List.of(
+                                Map.of("role", "system", "content",
+                                                "You are a professional travel planner. Respond clearly and helpfully."),
+                                Map.of("role", "user", "content", prompt)));
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(apiKey);
+                body.put("temperature", 0.4);
 
-        HttpEntity<Map<String, Object>> entity =
-                new HttpEntity<>(body, headers);
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                headers.setBearerAuth(apiKey);
 
-        ResponseEntity<String> response = restTemplate.exchange(
-                apiUrl,
-                HttpMethod.POST,
-                entity,
-                String.class
-        );
+                HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
 
-        return response.getBody();
-    }
+                ResponseEntity<String> response = restTemplate.exchange(
+                                apiUrl,
+                                HttpMethod.POST,
+                                entity,
+                                String.class);
+
+                return response.getBody();
+        }
 }

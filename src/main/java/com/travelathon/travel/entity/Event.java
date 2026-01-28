@@ -6,8 +6,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.travelathon.travel.entity.EventProvider;
-
 @Entity
 @Table(
     name = "events",
@@ -18,8 +16,7 @@ import com.travelathon.travel.entity.EventProvider;
 public class Event {
 
     @Id
-    @GeneratedValue
-    @Column(columnDefinition = "uuid")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "external_id", nullable = false, length = 100)
@@ -40,17 +37,10 @@ public class Event {
     private String description;
 
     @Column(nullable = false)
-private String city = "Unknown";
-
-
-    @Column(name = "league_name")
-private String leagueName;
-
-@Column(name = "season")
-private Integer season;
+    private String city = "Unknown";
 
     @Column(nullable = false)
-    private String country;
+    private String country = "Unknown";
 
     private String venue;
 
@@ -66,12 +56,10 @@ private Integer season;
     @Column(name = "current_price", precision = 10, scale = 2)
     private BigDecimal currentPrice;
 
+    @Column(nullable = false)
     private String currency = "INR";
 
-    @Column(name = "image_url")
-    private String imageUrl;
-
-    @Column(name = "view_count")
+    @Column(name = "view_count", nullable = false)
     private Integer viewCount = 0;
 
     @Column(name = "created_at", updatable = false)
@@ -80,6 +68,22 @@ private Integer season;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    /* ==============================
+       Relationships
+       ============================== */
+
+    @OneToOne(
+        mappedBy = "event",
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private EventPackage eventPackage;
+
+    public void attachPackage(EventPackage pkg) {
+    this.eventPackage = pkg;
+    pkg.setEvent(this);
+}
     /* ==============================
        Lifecycle Hooks
        ============================== */
@@ -102,9 +106,6 @@ private Integer season;
     public UUID getId() {
         return id;
     }
-
-    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-private EventPackage eventPackage;
 
     public String getExternalId() {
         return externalId;
@@ -138,14 +139,6 @@ private EventPackage eventPackage;
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getCity() {
         return city;
     }
@@ -161,6 +154,8 @@ private EventPackage eventPackage;
     public void setCountry(String country) {
         this.country = country;
     }
+
+    /* ✅ MISSING METHODS — NOW FIXED */
 
     public String getVenue() {
         return venue;
@@ -186,14 +181,6 @@ private EventPackage eventPackage;
         this.endDate = endDate;
     }
 
-    public BigDecimal getOriginalPrice() {
-        return originalPrice;
-    }
-
-    public void setOriginalPrice(BigDecimal originalPrice) {
-        this.originalPrice = originalPrice;
-    }
-
     public BigDecimal getCurrentPrice() {
         return currentPrice;
     }
@@ -202,23 +189,14 @@ private EventPackage eventPackage;
         this.currentPrice = currentPrice;
     }
 
-    public String getCurrency() {
-        return currency;
+    public EventPackage getEventPackage() {
+        return eventPackage;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public Integer getViewCount() {
-        return viewCount;
-    }
-
-    public void setViewCount(Integer viewCount) {
-        this.viewCount = viewCount;
+    public void setEventPackage(EventPackage eventPackage) {
+        this.eventPackage = eventPackage;
+        if (eventPackage != null) {
+            eventPackage.setEvent(this);
+        }
     }
 }

@@ -18,9 +18,8 @@ public class TicketmasterClient {
     public String fetchRawEvents() {
     String url = apiUrl +
             "?apikey=" + apiKey +
-            "&classificationName=music" +
             "&size=20";
     return restTemplate.getForObject(url, String.class);
-}
+    }
 
 }

@@ -26,7 +26,7 @@ public class SportMonksClient {
                 "?api_token=" + apiKey +
                 "&filters=starts_after:" + today +
                 "&include=league,season,venue,participants" +
-                "&per_page=50";
+                "&per_page=20";
 
         return restTemplate.getForObject(url, String.class);
     }

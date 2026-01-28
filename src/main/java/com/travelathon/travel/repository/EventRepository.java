@@ -10,9 +10,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface EventRepository
-        extends JpaRepository<Event, UUID>,
+                extends JpaRepository<Event, UUID>,
                 JpaSpecificationExecutor<Event> {
 
-    Optional<Event> findByExternalIdAndSource(String externalId, EventProvider source);
+        Optional<Event> findByExternalIdAndSource(String externalId, EventProvider source);
 
 }

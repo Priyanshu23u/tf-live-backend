@@ -25,12 +25,12 @@ public class GroqChatController {
 
         JsonNode root = mapper.readTree(raw);
         String content = root.path("choices")
-                             .get(0)
-                             .path("message")
-                             .path("content")
-                             .asText();
+                .get(0)
+                .path("message")
+                .path("content")
+                .asText();
 
         return mapper.createObjectNode()
-                     .put("reply", content);
+                .put("reply", content);
     }
 }

@@ -27,19 +27,13 @@ public class EventController {
             @RequestParam(required = false) String city,
             @RequestParam(required = false) String country,
 
-            @RequestParam(required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
 
-            @RequestParam(required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDate endDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
 
             @RequestParam(required = false) BigDecimal minPrice,
-            @RequestParam(required = false) BigDecimal maxPrice
-    ) {
+            @RequestParam(required = false) BigDecimal maxPrice) {
         return eventService.filterEvents(
-                category, city, country, startDate, endDate, minPrice, maxPrice
-        );
+                category, city, country, startDate, endDate, minPrice, maxPrice);
     }
 }

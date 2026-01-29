@@ -9,10 +9,13 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.Optional;
 import java.util.UUID;
 
+
+
 public interface EventRepository
                 extends JpaRepository<Event, UUID>,
                 JpaSpecificationExecutor<Event> {
 
         Optional<Event> findByExternalIdAndSource(String externalId, EventProvider source);
+long countBySource(EventProvider source);
 
 }

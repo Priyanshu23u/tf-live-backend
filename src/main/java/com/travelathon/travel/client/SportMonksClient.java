@@ -9,17 +9,13 @@ import java.time.LocalDate;
 @Component
 public class SportMonksClient {
 
-    private final RestTemplate restTemplate;
-
     @Value("${sportmonks.api.url}")
     private String baseUrl;
 
     @Value("${sportmonks.api.key}")
     private String apiKey;
 
-    public SportMonksClient(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public String fetchFutureFixtures() {
 
@@ -30,7 +26,7 @@ public class SportMonksClient {
                 "?api_token=" + apiKey +
                 "&filters=starts_after:" + today +
                 "&include=league,season,venue,participants" +
-                "&per_page=50";
+                "&per_page=20";
 
         return restTemplate.getForObject(url, String.class);
     }

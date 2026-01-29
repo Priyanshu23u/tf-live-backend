@@ -17,12 +17,13 @@ public class CricApiSyncService {
 
     private final CricApiClient client;
     private final EventRepository repository;
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper ;
 
-    public CricApiSyncService(CricApiClient client, EventRepository repository, EventPackageService eventPackageService) {
+    public CricApiSyncService(CricApiClient client, EventRepository repository, EventPackageService eventPackageService, ObjectMapper mapper) {
         this.client = client;
         this.repository = repository;
         this.eventPackageService = eventPackageService;
+        this.mapper = mapper;
     }
 
     public int syncCricketMatches() throws Exception {

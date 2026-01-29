@@ -19,12 +19,13 @@ public class EventSyncService {
 
     private final TicketmasterClient client;
     private final EventRepository repository;
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper;
 
-    public EventSyncService(TicketmasterClient client, EventRepository repository, EventPackageService eventPackageService) {
+    public EventSyncService(TicketmasterClient client, EventRepository repository, EventPackageService eventPackageService,ObjectMapper mapper) {
         this.client = client;
         this.repository = repository;
         this.eventPackageService = eventPackageService;
+        this.mapper = mapper;
     }
 
     public int syncTicketmasterEvents() throws Exception {
@@ -89,6 +90,13 @@ public class EventSyncService {
         event.setEndDate(event.getStartDate());
 
         event.setCurrentPrice(new BigDecimal("9999"));
+        JsonNode images = node.path("images");
+
+if (images.isArray() && images.size() > 0) {
+    event.setImageUrl(
+        images.get(0).path("url").asText(null)
+    );
+}
 
         repository.save(event);
         count++;

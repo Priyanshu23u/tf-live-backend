@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class GroqChatController {
 
     private final GroqClient groqClient;
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper ;
 
-    public GroqChatController(GroqClient groqClient) {
+    public GroqChatController(GroqClient groqClient,ObjectMapper mapper) {
         this.groqClient = groqClient;
+        this.mapper = mapper;
     }
 
     @PostMapping

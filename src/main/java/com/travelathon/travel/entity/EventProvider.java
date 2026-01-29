@@ -5,5 +5,4 @@ public enum EventProvider {
     CRICAPI,
     OPENF1,
     THESPORTSDB,
-    SPORTMONKS   // 👈 add this
 }

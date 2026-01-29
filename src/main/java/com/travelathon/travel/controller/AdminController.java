@@ -6,7 +6,6 @@ import com.travelathon.travel.service.CricApiSyncService;
 import com.travelathon.travel.service.EventSyncService;
 import com.travelathon.travel.service.GroqPricingService;
 import com.travelathon.travel.service.OpenF1SyncService;
-import com.travelathon.travel.service.SportMonksFootballSyncService;
 
 import java.util.UUID;
 
@@ -20,19 +19,17 @@ public class AdminController {
     private final EventSyncService syncService;
     private final OpenF1SyncService openF1SyncService;
     private final CricApiSyncService cricApiSyncService;
-    private final SportMonksFootballSyncService sportMonksFootballSyncService;
     private final GroqPricingService groqPricingService;
     private final EventRepository eventRepository;
 
     public AdminController(EventSyncService syncService,
             OpenF1SyncService openF1SyncService,
             CricApiSyncService cricApiSyncService,
-            SportMonksFootballSyncService sportMonksFootballSyncService, GroqPricingService groqPricingService,
+            GroqPricingService groqPricingService,
             EventRepository eventRepository) {
         this.syncService = syncService;
         this.openF1SyncService = openF1SyncService;
         this.cricApiSyncService = cricApiSyncService;
-        this.sportMonksFootballSyncService = sportMonksFootballSyncService;
         this.groqPricingService = groqPricingService;
         this.eventRepository = eventRepository;
     }
@@ -55,12 +52,7 @@ public class AdminController {
         return count + " cricket matches synced successfully";
     }
 
-    @PostMapping("/sync/football/sportmonks")
-    public String syncFootballSportMonks() throws Exception {
-        int count = sportMonksFootballSyncService.syncFutureFootballMatches();
-        return count + " future football matches synced successfully";
-    }
-
+    
     @PostMapping("/pricing/{eventId}")
     public String generatePricing(@PathVariable UUID eventId) throws Exception {
 

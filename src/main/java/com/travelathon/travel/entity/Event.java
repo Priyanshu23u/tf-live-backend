@@ -44,6 +44,9 @@ public class Event {
 
     private String venue;
 
+    @Column(name = "image_url")
+private String imageUrl;
+
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
@@ -118,6 +121,14 @@ public class Event {
     public EventProvider getSource() {
         return source;
     }
+
+    public String getImageUrl() {
+    return imageUrl;
+}
+
+public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+}
 
     public void setSource(EventProvider source) {
         this.source = source;

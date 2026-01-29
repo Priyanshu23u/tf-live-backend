@@ -6,6 +6,7 @@ import com.travelathon.travel.client.GroqClient;
 import com.travelathon.travel.entity.Event;
 import com.travelathon.travel.entity.EventPackage;
 import com.travelathon.travel.repository.EventPackageRepository;
+import com.travelathon.travel.util.GroqJsonExtractor;
 import com.travelathon.travel.util.PricingPromptBuilder;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,13 @@ public class GroqPricingService {
 
         private final GroqClient groqClient;
         private final EventPackageRepository eventPackageRepository;
-        private final ObjectMapper mapper = new ObjectMapper();
+        private final ObjectMapper mapper;
 
         public GroqPricingService(GroqClient groqClient,
-                        EventPackageRepository eventPackageRepository) {
+                        EventPackageRepository eventPackageRepository,ObjectMapper mapper) {
                 this.groqClient = groqClient;
                 this.eventPackageRepository = eventPackageRepository;
+                this.mapper = mapper;
         }
 
         public void estimateAndUpdate(Event event) throws Exception {
@@ -33,14 +35,7 @@ public class GroqPricingService {
                 String prompt = PricingPromptBuilder.build(event);
                 String raw = groqClient.generateItinerary(prompt);
 
-                JsonNode root = mapper.readTree(raw);
-                String content = root.path("choices")
-                                .get(0)
-                                .path("message")
-                                .path("content")
-                                .asText();
-
-                JsonNode json = mapper.readTree(content);
+                JsonNode json = GroqJsonExtractor.extract(raw);
 
                 eventPackage.setFlightPriceEstimate(
                                 BigDecimal.valueOf(json.path("flight").asDouble()));

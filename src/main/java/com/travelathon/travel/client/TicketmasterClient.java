@@ -7,23 +7,19 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class TicketmasterClient {
 
-    private final RestTemplate restTemplate;
-
     @Value("${ticketmaster.api.key}")
     private String apiKey;
 
     @Value("${ticketmaster.api.url}")
     private String apiUrl;
 
-    public TicketmasterClient(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public String fetchRawEvents() {
-        String url = apiUrl +
-                "?apikey=" + apiKey +
-                "&classificationName=music" +
-                "&size=20";
-        return restTemplate.getForObject(url, String.class);
+    String url = apiUrl +
+            "?apikey=" + apiKey +
+            "&size=20";
+    return restTemplate.getForObject(url, String.class);
     }
+
 }

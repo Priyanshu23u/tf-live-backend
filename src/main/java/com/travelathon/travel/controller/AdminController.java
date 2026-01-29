@@ -1,5 +1,6 @@
 package com.travelathon.travel.controller;
 
+import com.travelathon.travel.client.TicketmasterClient;
 import com.travelathon.travel.entity.Event;
 import com.travelathon.travel.repository.EventRepository;
 import com.travelathon.travel.service.CricApiSyncService;
@@ -25,7 +26,7 @@ public class AdminController {
     public AdminController(EventSyncService syncService,
             OpenF1SyncService openF1SyncService,
             CricApiSyncService cricApiSyncService,
-            GroqPricingService groqPricingService,
+             GroqPricingService groqPricingService,
             EventRepository eventRepository) {
         this.syncService = syncService;
         this.openF1SyncService = openF1SyncService;
@@ -33,6 +34,7 @@ public class AdminController {
         this.groqPricingService = groqPricingService;
         this.eventRepository = eventRepository;
     }
+    
 
     @PostMapping("/sync/ticketmaster")
     public String syncTicketmaster() throws Exception {

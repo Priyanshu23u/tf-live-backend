@@ -22,17 +22,19 @@ public class AdminController {
     private final CricApiSyncService cricApiSyncService;
     private final GroqPricingService groqPricingService;
     private final EventRepository eventRepository;
+    private final TicketmasterClient ticketmasterClient;
 
     public AdminController(EventSyncService syncService,
             OpenF1SyncService openF1SyncService,
             CricApiSyncService cricApiSyncService,
              GroqPricingService groqPricingService,
-            EventRepository eventRepository) {
+            EventRepository eventRepository,TicketmasterClient ticketmasterClient) {
         this.syncService = syncService;
         this.openF1SyncService = openF1SyncService;
         this.cricApiSyncService = cricApiSyncService;
         this.groqPricingService = groqPricingService;
         this.eventRepository = eventRepository;
+        this.ticketmasterClient=ticketmasterClient;
     }
     
 

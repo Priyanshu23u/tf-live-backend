@@ -30,9 +30,16 @@ public class GroqClient {
                 body.put("model", "llama-3.1-8b-instant");
 
                 body.put("messages", List.of(
-                                Map.of("role", "system", "content",
-                                                "You are a professional travel planner. Respond clearly and helpfully."),
-                                Map.of("role", "user", "content", prompt)));
+    Map.of(
+        "role", "system",
+        "content",
+        "You are an API. You MUST respond with ONLY valid JSON. " +
+        "Do NOT include explanations, text, markdown, or prefixes. " +
+        "If you cannot comply, return {}"
+    ),
+    Map.of("role", "user", "content", prompt)
+));
+
 
                 body.put("temperature", 0.4);
 

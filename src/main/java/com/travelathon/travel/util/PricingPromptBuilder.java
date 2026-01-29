@@ -7,7 +7,7 @@ public class PricingPromptBuilder {
     public static String build(Event event) {
 
         return """
-                Estimate realistic travel costs in INR.
+                Estimate MINIMUM realistic travel costs in INR.
 
                 Event details:
                 - Title: %s
@@ -17,9 +17,9 @@ public class PricingPromptBuilder {
 
                 Assumptions:
                 - Economy round-trip flight
-                - 3-star hotel
+                - Budget Hotel
                 - Average local transport
-                - Basic food
+                - Basic food have average cost(not so high not so low)
                 - Event ticket included
 
                 Return ONLY valid JSON:

@@ -2,6 +2,7 @@ package com.travelathon.travel.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.travelathon.travel.dto.PromptRequest;
+import com.travelathon.travel.dto.StructuredItineraryRequest;
 import com.travelathon.travel.service.ItineraryJsonService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,10 @@ public class ItineraryJsonController {
     }
 
     @PostMapping("/json")
-    public JsonNode generate(@RequestBody PromptRequest request) throws Exception {
-        return service.generate(request.getPrompt());
-    }
+public JsonNode generate(
+        @RequestBody StructuredItineraryRequest request
+) throws Exception {
+    return service.generate(request);
+}
+
 }

@@ -3,8 +3,11 @@ package com.travelathon.travel.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.travelathon.travel.client.GroqClient;
+import com.travelathon.travel.dto.StructuredItineraryRequest;
 import com.travelathon.travel.util.GroqJsonExtractor;
 import com.travelathon.travel.util.ItineraryJsonPromptBuilder;
+import com.travelathon.travel.util.StructuredItineraryPromptBuilder;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,11 +21,14 @@ public class ItineraryJsonService {
         this.mapper = mapper;
     }
 
-    public JsonNode generate(String userPrompt) throws Exception {
+ public JsonNode generate(StructuredItineraryRequest req) throws Exception {
 
-        String prompt = ItineraryJsonPromptBuilder.build(userPrompt);
-        String raw = groqClient.generateItinerary(prompt);
+    String prompt =
+            StructuredItineraryPromptBuilder.build(req);
 
-        return GroqJsonExtractor.extract(raw);
-    }
+    String raw = groqClient.generateItinerary(prompt);
+
+    return GroqJsonExtractor.extract(raw);
+}
+
 }

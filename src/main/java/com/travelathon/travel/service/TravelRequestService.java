@@ -6,6 +6,7 @@ import com.travelathon.travel.repository.TravelRequestRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class TravelRequestService {
@@ -16,6 +17,9 @@ public class TravelRequestService {
         this.repository = repository;
     }
 
+    public List<TravelRequest> getRequestsByEmail(String email) {
+        return repository.findByEmail(email);
+    }
     public TravelRequest saveConfirmed(
             TravelRequestDTO dto,
             BigDecimal estimatedPrice

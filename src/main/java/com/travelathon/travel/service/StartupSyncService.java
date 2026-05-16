@@ -3,8 +3,9 @@ package com.travelathon.travel.service;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.travelathon.travel.entity.EventProvider;
 import com.travelathon.travel.repository.EventRepository;
+
+import java.time.LocalDate;
 
 @Component
 public class StartupSyncService implements CommandLineRunner {
@@ -26,36 +27,30 @@ public class StartupSyncService implements CommandLineRunner {
         this.eventRepository = eventRepository;
     }
 
-@Override
-public void run(String... args) {
+    @Override
+    public void run(String... args) {
 
-    try {
-        if (eventRepository.countBySource(EventProvider.TICKETMASTER) == 0) {
+        try {
+
+            System.out.println("Starting startup sync...");
+
+            // Delete expired events
+            eventRepository.deleteExpiredEvents(LocalDate.now());
+
+            // Always sync fresh events
             ticketmasterSync.syncTicketmasterEvents();
-        }
-    } catch (Exception e) {
-        System.out.println("Ticketmaster sync failed: " + e.getMessage());
-    }
 
-    try {
-        if (eventRepository.countBySource(EventProvider.OPENF1) == 0) {
             openF1Sync.syncRacingEvents();
-        }
-    } catch (Exception e) {
-        System.out.println("OpenF1 sync failed: " + e.getMessage());
-    }
 
-    try {
-        if (eventRepository.countBySource(EventProvider.CRICAPI) == 0) {
             cricketSync.syncCricketMatches();
+
+            System.out.println("Startup sync completed.");
+
+        } catch (Exception e) {
+
+            System.out.println("Startup sync failed.");
+
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        System.out.println("CricAPI sync failed: " + e.getMessage());
     }
-
-    
-
-    System.out.println("Startup sync completed.");
-}
-
 }

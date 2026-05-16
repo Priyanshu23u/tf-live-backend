@@ -4,6 +4,7 @@ import com.travelathon.travel.entity.Event;
 import com.travelathon.travel.entity.EventCategory;
 import com.travelathon.travel.repository.EventRepository;
 import com.travelathon.travel.specification.EventSpecification;
+
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -33,12 +34,22 @@ public class EventService {
         Specification<Event> spec = Specification.where(null);
 
         spec = spec.and(EventSpecification.hasCategory(category));
+
         spec = spec.and(EventSpecification.hasCity(city));
+
         spec = spec.and(EventSpecification.hasCountry(country));
+
         spec = spec.and(EventSpecification.startDateAfter(startDate));
+
         spec = spec.and(EventSpecification.endDateBefore(endDate));
+
         spec = spec.and(EventSpecification.priceGreaterThan(minPrice));
+
         spec = spec.and(EventSpecification.priceLessThan(maxPrice));
+
+        // IMPORTANT:
+        // Only show upcoming events
+        spec = spec.and(EventSpecification.upcomingEvents());
 
         return eventRepository.findAll(spec);
     }

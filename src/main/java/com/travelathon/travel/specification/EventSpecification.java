@@ -29,7 +29,8 @@ public class EventSpecification {
     }
 
     public static Specification<Event> endDateBefore(LocalDate endDate) {
-        return (root, query, cb) -> endDate == null ? null : cb.lessThanOrEqualTo(root.get("endDate"), endDate);
+        return (root, query, cb) -> endDate == null ? null
+                : cb.lessThanOrEqualTo(root.get("endDate"), endDate);
     }
 
     public static Specification<Event> priceGreaterThan(BigDecimal minPrice) {
@@ -38,7 +39,8 @@ public class EventSpecification {
     }
 
     public static Specification<Event> priceLessThan(BigDecimal maxPrice) {
-        return (root, query, cb) -> maxPrice == null ? null : cb.lessThanOrEqualTo(root.get("currentPrice"), maxPrice);
+        return (root, query, cb) -> maxPrice == null ? null
+                : cb.lessThanOrEqualTo(root.get("currentPrice"), maxPrice);
     }
 
     public static Specification<Event> hasLeague(String league) {
@@ -47,7 +49,17 @@ public class EventSpecification {
     }
 
     public static Specification<Event> hasSeason(Integer season) {
-        return (root, query, cb) -> season == null ? null : cb.equal(root.get("season"), season);
+        return (root, query, cb) -> season == null ? null
+                : cb.equal(root.get("season"), season);
     }
 
+    // NEW METHOD
+    public static Specification<Event> upcomingEvents() {
+
+        return (root, query, cb) ->
+                cb.greaterThanOrEqualTo(
+                        root.get("endDate"),
+                        LocalDate.now()
+                );
+    }
 }

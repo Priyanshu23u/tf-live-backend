@@ -11,6 +11,7 @@ com\travelathon\travel\util\ItineraryJsonPromptBuilder.class
 com\travelathon\travel\util\UserPricingPromptBuilder.class
 com\travelathon\travel\entity\Event.class
 com\travelathon\travel\client\GroqClient.class
+com\travelathon\travel\service\ScheduledSyncService.class
 com\travelathon\travel\client\OpenF1Client.class
 com\travelathon\travel\TravelApplication.class
 com\travelathon\travel\config\RestTemplateConfig.class

@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.travelathon.travel.TravelApplicationTests
 -------------------------------------------------------------------------------
-<<<<<<< HEAD
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 64.29 s -- in com.travelathon.travel.TravelApplicationTests
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.539 s -- in com.travelathon.travel.TravelApplicationTests
->>>>>>> 8bb4624a7d9da3de483f9cf0ec061dcaaa313c91
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 67.52 s -- in com.travelathon.travel.TravelApplicationTests

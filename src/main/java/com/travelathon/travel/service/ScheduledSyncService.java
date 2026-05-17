@@ -28,12 +28,12 @@ public class ScheduledSyncService {
     }
 
     /**
-     * Runs every 6 hours
+     * Runs every 30 seconds
      *
      * Cron format:
      * second minute hour day month weekday
      */
-    @Scheduled(cron = "0 0 */6 * * *")
+    @Scheduled(cron = "*/30 * * * * *")
     public void refreshEvents() {
 
         try {
